@@ -6,14 +6,13 @@ import java.sql.SQLException;
 
 /**
  * Reusable Database Connection Provider for CodeQuest.
- * Connects to MySQL using JDBC Driver (com.mysql.cj.jdbc.Driver).
+ * Configured for Aiven Cloud MySQL instance.
  */
 public class DBConnection {
 
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "mysql://avnadmin:AVNS_76v-Vj8lNI-hkfnroDz@mysql-2feb87b1-shameershaik3951-4001.e.aivencloud.com:24736/defaultdb?ssl-mode=REQUIRED";
+    private static final String DB_URL = "jdbc:mysql://mysql-2feb87b1-shameershaik3951-4001.e.aivencloud.com:24736/defaultdb?sslMode=REQUIRED";
     
-    // User credentials configured for local MySQL 8.0 instance
     private static final String DB_USER = "avnadmin";
     private static final String DB_PASS = "AVNS_76v-Vj8lNI-hkfnroDz";
 
@@ -34,4 +33,3 @@ public class DBConnection {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
     }
 }
-
