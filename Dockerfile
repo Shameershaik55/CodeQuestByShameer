@@ -24,7 +24,9 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 # Copy the WAR file compiled by Stage 1 directly into Tomcat webapps as ROOT.war
 COPY --from=builder /app/target/CodeQuest.war /usr/local/tomcat/webapps/ROOT.war
 
-# Expose standard Tomcat port
-EXPOSE 8080
+# Default to 8080 if PORT is not set
+ENV PORT=8080
+EXPOSE 8080 10000
 
-CMD ["catalina.sh", "run"]
+# Dynamically bind Tomcat's HTTP port to $PORT (assigned by Render / Cloud platforms)
+CMD ["sh", "-c", "PORT=${PORT:-8080}; echo \"Binding Tomcat to port $PORT...\"; sed -i \"s/port=\\\"8080\\\"/port=\\\"$PORT\\\"/g\" /usr/local/tomcat/conf/server.xml && exec catalina.sh run"]
